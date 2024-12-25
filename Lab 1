@@ -1,0 +1,17 @@
+def check_sql_injection(input_string):
+    # Patterns to check for SQL injection
+    sql_injection_patterns = ['"', '|', '=', '--', '~']
+    for pattern in sql_injection_patterns:
+        if pattern in input_string:
+            return f"Potential SQL Injection detected: '{pattern}' found."
+    # Ensure this is within the function
+    return "No SQL Injection detected."
+
+# Input from the user
+input_string = input("Enter a string to check for SQL injection: ")
+
+# Check the input string for SQL injection
+result = check_sql_injection(input_string)
+
+# Print the result
+print(result)
