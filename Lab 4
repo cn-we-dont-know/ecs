@@ -1,12 +1,14 @@
-def xor_encrypt_decrypt(input_string, key): 
+import base64
+
+def xor_encrypt_decrypt(input_string, key):
     # Convert input string to a bytearray
     input_bytes = bytearray(input_string, 'utf-8')
     
     # Perform XOR operation on each byte
     output_bytes = bytearray([byte ^ key for byte in input_bytes])
     
-    # Decode the result back to a string, ignoring errors
-    return output_bytes.decode('utf-8', 'ignore')
+    # Return the result as a bytearray
+    return output_bytes
 
 # Define the XOR key (any integer value)
 key = 123
@@ -15,9 +17,16 @@ key = 123
 original_text = input("Enter the message: ")
 
 # Encrypt the original text
-encrypted_text = xor_encrypt_decrypt(original_text, key)
+encrypted_bytes = xor_encrypt_decrypt(original_text, key)
+
+# Convert encrypted bytes to Base64 for safe representation
+encrypted_text = base64.b64encode(encrypted_bytes).decode('utf-8')
 print(f"Encrypted: {encrypted_text}")
 
-# Decrypt the encrypted text
-decrypted_text = xor_encrypt_decrypt(encrypted_text, key)
+# Convert Base64 back to bytes for decryption
+encrypted_bytes = base64.b64decode(encrypted_text)
+
+# Decrypt the encrypted bytes
+decrypted_bytes = xor_encrypt_decrypt(encrypted_bytes.decode('utf-8', 'ignore'), key)
+decrypted_text = decrypted_bytes.decode('utf-8', 'ignore')
 print(f"Decrypted: {decrypted_text}")
